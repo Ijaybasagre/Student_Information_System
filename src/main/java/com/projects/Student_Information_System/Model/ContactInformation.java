@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Embeddable
 public class ContactInformation {
     private String email;
     private String phoneNumber;
