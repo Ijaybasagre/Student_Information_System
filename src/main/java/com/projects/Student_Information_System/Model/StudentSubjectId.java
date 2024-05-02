@@ -9,8 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@Embeddable
 @NoArgsConstructor
+@Embeddable
 public class StudentSubjectId {
 
     private Long studentId;

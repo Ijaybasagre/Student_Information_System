@@ -27,5 +27,6 @@ public class CourseDTO {
     private String name;
     private String description;
     private Integer capacity;
+    private List<Student> enrolledStudents;
 
 }
