@@ -20,5 +20,4 @@ public class StudentDTO {
     private Long id;
     private PersonalInformation personalInformation;
     private ContactInformation contactInformation;
-    private List<Course> enrolledCourses;
 }

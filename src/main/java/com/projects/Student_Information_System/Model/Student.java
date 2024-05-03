@@ -35,4 +35,6 @@ public class Student implements Serializable {
 
     @ManyToMany(mappedBy = "enrolledStudents")
     private List<Course> enrolledCourses;
+
+
 }

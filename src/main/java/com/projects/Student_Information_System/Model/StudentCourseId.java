@@ -11,9 +11,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-public class StudentSubjectId {
+public class StudentCourseId {
 
     private Long studentId;
 
-    private Long subjectId;
+    private Long courseId;
 }

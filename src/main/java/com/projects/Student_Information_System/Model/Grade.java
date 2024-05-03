@@ -22,8 +22,8 @@ public class Grade implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @EmbeddedId
-    private StudentSubjectId id;
+    private StudentCourseId id;
 
-    private double value;
+    private Double value;
 
 }
