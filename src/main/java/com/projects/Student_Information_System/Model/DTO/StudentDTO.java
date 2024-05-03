@@ -2,7 +2,9 @@ package com.projects.Student_Information_System.Model.DTO;
 
 import com.projects.Student_Information_System.Model.ContactInformation;
 import com.projects.Student_Information_System.Model.Course;
+import com.projects.Student_Information_System.Model.Enums.Role;
 import com.projects.Student_Information_System.Model.PersonalInformation;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +20,7 @@ import java.util.List;
 @Builder
 public class StudentDTO {
     private Long id;
+    private String studentId;
+    private Role role;
     private PersonalInformation personalInformation;
-    private ContactInformation contactInformation;
 }

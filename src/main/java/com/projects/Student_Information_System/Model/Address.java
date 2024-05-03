@@ -7,11 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address {
+public class Address implements Serializable{
     private String street;
     @NotNull(message = "city/town should not be null")
     private String city;

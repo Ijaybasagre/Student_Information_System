@@ -1,6 +1,5 @@
 package com.projects.Student_Information_System.Model;
 
-import com.projects.Student_Information_System.Model.Address;
 import com.projects.Student_Information_System.Model.Enums.Sex;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
@@ -12,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Embeddable
@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonalInformation {
+public class PersonalInformation implements Serializable {
 
     @NotNull(message = "first name should not be null")
     private String firstname;
@@ -28,6 +28,7 @@ public class PersonalInformation {
     @NotNull(message = "middle name should not be null")
     private String middlename;
 
+    @NotNull(message = "Sex should not be null")
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
@@ -37,4 +38,8 @@ public class PersonalInformation {
     @Embedded
     @NotNull(message = "address of birth should not be null")
     private Address address;
+
+    @Embedded
+    @NotNull(message = "contact information should not be null")
+    private ContactInformation contactInformation;
 }
