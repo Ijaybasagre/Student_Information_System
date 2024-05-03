@@ -2,10 +2,12 @@ package com.projects.Student_Information_System.Service;
 
 import com.projects.Student_Information_System.Model.DTO.InstructorDTO;
 import com.projects.Student_Information_System.Model.DTO.StudentDTO;
+import com.projects.Student_Information_System.Model.Enums.Role;
 import com.projects.Student_Information_System.Model.Instructor;
 import com.projects.Student_Information_System.Model.Student;
 import com.projects.Student_Information_System.Repository.IInstructorRepository;
 import com.projects.Student_Information_System.Repository.IStudentRepository;
+import com.projects.Student_Information_System.Util.IDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -37,14 +39,19 @@ public class InstructorService {
 
     @Transactional
     public InstructorDTO createInstructor(InstructorDTO instructorDTO) {
-        var instructor  = convertInstructorDTOToEntity(instructorDTO);
+        var instructor = convertInstructorDTOToEntity(instructorDTO);
+        instructor.setInstructorId(
+                IDGenerator.generate(getLatestCount(),
+                        Role.INSTRUCTOR)
+        );
+        instructor.setRole(Role.INSTRUCTOR);
         return convertInstructorEntityToDTO(iInstructorRepository.save(instructor));
     }
+
     @Transactional
     public InstructorDTO updateInstructor(Long id, InstructorDTO instructorDTO) {
         var instructorToUpdate = findInstructorById(id);
         instructorToUpdate.setPersonalInformation(instructorDTO.getPersonalInformation());
-        instructorToUpdate.setContactInformation(instructorDTO.getContactInformation());
         return convertInstructorEntityToDTO(iInstructorRepository.save(instructorToUpdate));
     }
 
@@ -57,22 +64,31 @@ public class InstructorService {
     public Instructor findInstructorById(Long id) {
         return iInstructorRepository.findById(id)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Instructor id: "+id + " Doesn't exist")
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Instructor id: " + id + " Doesn't exist")
                 );
+    }
+
+    private Long getLatestCount() {
+        return getAllInstructor()
+                .stream()
+                .mapToLong(InstructorDTO::getId).max().orElse(0L);
     }
 
     public InstructorDTO convertInstructorEntityToDTO(Instructor instructor) {
         return InstructorDTO.builder()
                 .id(instructor.getId())
+                .instructorId(instructor.getInstructorId())
+                .role(instructor.getRole())
                 .personalInformation(instructor.getPersonalInformation())
-                .contactInformation(instructor.getContactInformation())
                 .build();
     }
 
     public Instructor convertInstructorDTOToEntity(InstructorDTO instructorDTO) {
-     return Instructor.builder()
-                     .personalInformation(instructorDTO.getPersonalInformation())
-                             .contactInformation(instructorDTO.getContactInformation())
-             .build();
+        var instructor = new Instructor();
+        instructor.setId(instructor.getId());
+        instructor.setInstructorId(instructorDTO.getInstructorId());
+        instructor.setRole(instructorDTO.getRole());
+        instructor.setPersonalInformation(instructorDTO.getPersonalInformation());
+        return instructor;
     }
 }
