@@ -1,14 +1,13 @@
 package com.projects.Student_Information_System.Service;
 
 import com.projects.Student_Information_System.Model.DTO.InstructorDTO;
-import com.projects.Student_Information_System.Model.DTO.StudentDTO;
 import com.projects.Student_Information_System.Model.Enums.Role;
 import com.projects.Student_Information_System.Model.Instructor;
-import com.projects.Student_Information_System.Model.Student;
 import com.projects.Student_Information_System.Repository.IInstructorRepository;
-import com.projects.Student_Information_System.Repository.IStudentRepository;
 import com.projects.Student_Information_System.Util.IDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +25,12 @@ public class InstructorService {
         this.iInstructorRepository = iInstructorRepository;
     }
 
-    public List<InstructorDTO> getAllInstructor() {
-        return iInstructorRepository.findAll()
+    public List<InstructorDTO> getAllInstructor(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return iInstructorRepository.findAll(pageable)
                 .stream()
                 .map(this::convertInstructorEntityToDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public InstructorDTO getInstructor(Long id) {
@@ -57,8 +57,11 @@ public class InstructorService {
 
     @Transactional
     public void deleteInstructor(Long id) {
-        var studentToDelete = findInstructorById(id);
-        iInstructorRepository.deleteById(studentToDelete.getId());
+        var instructorToDelete = findInstructorById(id);
+        if (!instructorToDelete.getAssignedCourses().isEmpty()) {
+            throw new IllegalArgumentException("Instructor is assigned to a course");
+        }
+        iInstructorRepository.deleteById(instructorToDelete.getId());
     }
 
     public Instructor findInstructorById(Long id) {
@@ -69,9 +72,10 @@ public class InstructorService {
     }
 
     private Long getLatestCount() {
-        return getAllInstructor()
+        List<Instructor> instructors = iInstructorRepository.findAll();
+        return instructors
                 .stream()
-                .mapToLong(InstructorDTO::getId).max().orElse(0L);
+                .mapToLong(Instructor::getId).max().orElse(0L);
     }
 
     public InstructorDTO convertInstructorEntityToDTO(Instructor instructor) {
