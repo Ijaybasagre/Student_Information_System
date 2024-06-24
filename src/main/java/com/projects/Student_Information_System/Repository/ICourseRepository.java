@@ -11,5 +11,4 @@ public interface ICourseRepository extends JpaRepository<Course,Long> {
     Optional<Course> findByCode(String code);
     Optional<Course> findByName(String name);
 
-
 }

@@ -15,5 +15,5 @@ public interface IGradeRepository extends JpaRepository<Grade, StudentCourseId> 
     @Query(value = "SELECT crs.code AS code,crs.name AS name, gr.value AS value " +
             "FROM COURSE crs INNER JOIN GRADE gr ON crs.id = gr.course_id " +
             "WHERE gr.student_id = ?1", nativeQuery = true)
-   List<GradeDTO> getStudentGrades(Long id);
+    List<GradeDTO> getStudentGrades(Long id);
 }
