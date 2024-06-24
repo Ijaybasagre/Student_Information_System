@@ -1,5 +1,6 @@
 package com.projects.Student_Information_System.Model.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projects.Student_Information_System.Model.ContactInformation;
 import com.projects.Student_Information_System.Model.Course;
 import com.projects.Student_Information_System.Model.Enums.Role;
@@ -23,5 +24,6 @@ public class StudentDTO {
     private String studentId;
     private Role role;
     private String username;
+    private String password;
     private PersonalInformation personalInformation;
 }

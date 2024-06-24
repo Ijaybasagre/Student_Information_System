@@ -19,6 +19,7 @@ public class InstructorDTO {
     private String instructorId;
     private Role role;
     private String username;
+    private String password;
     private PersonalInformation personalInformation;
 
 }
