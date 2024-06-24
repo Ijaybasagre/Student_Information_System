@@ -1,14 +1,12 @@
 package com.projects.Student_Information_System.Model.DTO;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.projects.Student_Information_System.Model.Enums.Status;
-import com.projects.Student_Information_System.Model.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Set;
 
 @Getter
 @Setter

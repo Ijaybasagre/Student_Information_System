@@ -1,6 +1,5 @@
 package com.projects.Student_Information_System.Model;
 
-import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +12,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address implements Serializable{
+public class Address implements Serializable {
     private String street;
     @NotNull(message = "city/town should not be null")
     private String city;

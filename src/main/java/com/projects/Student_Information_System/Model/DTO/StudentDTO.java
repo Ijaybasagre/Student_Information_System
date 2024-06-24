@@ -22,5 +22,6 @@ public class StudentDTO {
     private Long id;
     private String studentId;
     private Role role;
+    private String username;
     private PersonalInformation personalInformation;
 }

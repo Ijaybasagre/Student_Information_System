@@ -1,7 +1,6 @@
 package com.projects.Student_Information_System.Model.DTO;
 
 
-import com.projects.Student_Information_System.Model.ContactInformation;
 import com.projects.Student_Information_System.Model.Enums.Role;
 import com.projects.Student_Information_System.Model.PersonalInformation;
 import lombok.AllArgsConstructor;
@@ -19,6 +18,7 @@ public class InstructorDTO {
     private Long id;
     private String instructorId;
     private Role role;
+    private String username;
     private PersonalInformation personalInformation;
 
 }

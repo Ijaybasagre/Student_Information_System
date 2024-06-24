@@ -12,6 +12,6 @@ public enum Role {
     ADMINISTRATOR("Administrator","AD"),
     STAFF("Staff","SF");
 
-    String name;
-    String code;
+    final String name;
+    final String code;
 }

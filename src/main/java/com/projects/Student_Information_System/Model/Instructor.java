@@ -1,9 +1,8 @@
 package com.projects.Student_Information_System.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,9 +28,10 @@ public class Instructor extends Profile implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true,nullable = false,updatable = false)
+    @Column(unique = true, nullable = false, updatable = false)
     private String instructorId;
 
-    @ManyToMany(mappedBy = "assignedInstructors")
+    @ManyToMany(mappedBy = "assignedInstructors",
+            fetch = FetchType.EAGER)
     private List<Course> assignedCourses;
 }
