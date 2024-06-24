@@ -1,12 +1,10 @@
 package com.projects.Student_Information_System.Controller;
 
 import com.projects.Student_Information_System.Model.DTO.StudentDTO;
-import com.projects.Student_Information_System.Model.Student;
+import com.projects.Student_Information_System.Model.Response;
 import com.projects.Student_Information_System.Service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,35 +18,56 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/students")
 public class StudentController {
 
+    private final StudentService studentService;
+
     @Autowired
-    private StudentService studentService;
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
 
     @GetMapping
-    public ResponseEntity findAllStudent() {
-        return new ResponseEntity(studentService.getAllStudents(), HttpStatus.OK);
+    public Response findAllStudent(int page, int size) {
+        Response response = new Response();
+        response.setData(studentService.getAllStudents(page, size));
+        return response;
     }
 
     @GetMapping("/student/{studentId}")
-    public ResponseEntity findStudent(@PathVariable Long studentId) {
-        return new ResponseEntity(studentService.getStudent(studentId), HttpStatus.OK);
+    public Response findStudent(@PathVariable Long studentId) {
+        Response response = new Response();
+        response.setData(studentService.getStudent(studentId));
+        return response;
+    }
+
+    @GetMapping("/student/{studentId}/courses")
+    public Response findStudentSubjects(@PathVariable Long studentId) {
+        Response response = new Response();
+        response.setData(studentService.getStudentSubjects(studentId));
+        return response;
     }
 
     @PostMapping("/create")
-    public ResponseEntity addStudent(@RequestBody @Valid StudentDTO studentDTO) {
-        return new ResponseEntity(studentService.createStudent(studentDTO),HttpStatus.CREATED);
+    public Response addStudent(@RequestBody @Valid StudentDTO studentDTO) {
+        Response response = new Response();
+        response.setData(studentService.createStudent(studentDTO));
+        return response;
     }
 
     @PutMapping("/update/{studentId}")
-    public ResponseEntity updateStudent(@PathVariable Long studentId,
-                                         @RequestBody @Valid StudentDTO studentDTO) {
-        return new ResponseEntity(studentService.updateStudent(studentId,studentDTO),HttpStatus.OK);
+    public Response updateStudent(@PathVariable Long studentId,
+                                  @RequestBody @Valid StudentDTO studentDTO) {
+        Response response = new Response();
+        response.setData(studentService.updateStudent(studentId, studentDTO));
+        return response;
     }
 
     @DeleteMapping("/delete/{studentId}")
-    public ResponseEntity deleteStudent(@PathVariable Long studentId) {
+    public Response deleteStudent(@PathVariable Long studentId) {
         studentService.deleteStudent(studentId);
-        return new ResponseEntity(HttpStatus.OK);
+        Response response = new Response();
+        response.setMessage("Student Deleted Successfully");
+        return response;
     }
 
 

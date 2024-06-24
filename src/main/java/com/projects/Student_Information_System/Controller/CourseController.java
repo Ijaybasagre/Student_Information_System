@@ -1,12 +1,9 @@
 package com.projects.Student_Information_System.Controller;
 
 import com.projects.Student_Information_System.Model.DTO.CourseDTO;
-import com.projects.Student_Information_System.Model.Student;
+import com.projects.Student_Information_System.Model.Response;
 import com.projects.Student_Information_System.Service.CourseService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,67 +27,41 @@ public class CourseController {
 
     //Course Management
     @GetMapping
-    public ResponseEntity getAllCourses() {
-        return new ResponseEntity(courseService.getAllCourses(), HttpStatus.OK);
+    public Response getAllCourses(@RequestParam int page, @RequestParam int size) {
+        Response response = new Response();
+        response.setData(courseService.getAllCourses(page, size));
+
+        return response;
     }
 
     @GetMapping("/course/{courseId}")
-    public ResponseEntity getCourse(@PathVariable Long courseId) {
-        return new ResponseEntity(courseService.getCourse(courseId), HttpStatus.OK);
+    public Response getCourse(@PathVariable Long courseId) {
+        Response response = new Response();
+        response.setData(courseService.getCourse(courseId));
+        return response;
     }
 
 
     @PostMapping("/create")
-    public ResponseEntity createCourse(@RequestBody CourseDTO courseDTO) {
-        return new ResponseEntity(courseService.createCourse(courseDTO), HttpStatus.OK);
+    public Response createCourse(@RequestBody CourseDTO courseDTO) {
+        Response response = new Response();
+        response.setData(courseService.createCourse(courseDTO));
+        return response;
     }
 
     @PutMapping("/update/{courseId}")
-    public ResponseEntity updateCourse(@PathVariable Long courseId,
-                                       @RequestBody CourseDTO courseDTO) {
-        return new ResponseEntity(courseService.updateCourse(courseId, courseDTO), HttpStatus.OK);
+    public Response updateCourse(@PathVariable Long courseId,
+                                 @RequestBody CourseDTO courseDTO) {
+        Response response = new Response();
+        response.setData(courseService.updateCourse(courseId, courseDTO));
+        return response;
     }
 
     @DeleteMapping("/delete/{courseId}")
-    public ResponseEntity deleteCourse(@PathVariable Long courseId) {
+    public Response deleteCourse(@PathVariable Long courseId) {
         courseService.deleteCourse(courseId);
-        return new ResponseEntity(HttpStatus.OK);
+        Response response = new Response();
+        response.setMessage("Deleted Successfully");
+        return response;
     }
-
-    //Student Enrollment
-    @GetMapping("/course/{courseId}/students")
-    public ResponseEntity getCourseStudents(@PathVariable Long courseId) {
-        return new ResponseEntity(courseService.getCourseStudent(courseId), HttpStatus.OK);
-    }
-
-    @PutMapping("/enroll")
-    public ResponseEntity enrollStudentToCourse(@RequestParam Long courseId
-            , @RequestParam Long studentId) {
-        return new ResponseEntity(courseService.addStudent(courseId, studentId), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/remove")
-    public ResponseEntity removeStudentToCourse(@RequestParam Long courseId
-            , @RequestParam Long studentId) {
-        return new ResponseEntity(courseService.removeStudent(courseId, studentId), HttpStatus.OK);
-    }
-
-    //Instructor Assignment
-    @GetMapping("/course/{courseId}/instructors")
-    public ResponseEntity getCourseInstructors(@PathVariable Long courseId) {
-        return new ResponseEntity(courseService.getCourseInstructors(courseId), HttpStatus.OK);
-    }
-
-    @PutMapping("/instructor/assign")
-    public ResponseEntity assignInstructorToCourse(@RequestParam Long courseId
-            , @RequestParam Long instructorId) {
-        return new ResponseEntity(courseService.addInstructor(courseId, instructorId), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/instructor/remove")
-    public ResponseEntity removeInstructorToCourse(@RequestParam Long courseId
-            , @RequestParam Long instructorId) {
-        return new ResponseEntity(courseService.removeInstructor(courseId, instructorId), HttpStatus.OK);
-    }
-
 }
